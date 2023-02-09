@@ -57,7 +57,7 @@ class LoginController extends Controller
 
         return response()->json([
             'token' => '',
-            'message' => 'El correo o cotraseña no es valida',
+            'message' => 'El correo o contraseña no es valida',
             'success' => false
         ]);
     }

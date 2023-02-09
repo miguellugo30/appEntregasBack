@@ -20,6 +20,7 @@ class VehiculosResource extends JsonResource
             'modelo' => $this->modelo,
             'anio' => $this->anio,
             'placas' => $this->placas,
+            'tipo' => $this->tipo,
         ];
     }
 }
