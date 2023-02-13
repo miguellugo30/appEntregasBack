@@ -93,7 +93,8 @@ class VehiculosController extends Controller
                 'marca' => $request->marca,
                 'modelo' => $request->modelo,
                 'anio' => $request->anio,
-                'placas' => $request->placas
+                'placas' => $request->placas,
+                'tipo' => $request->tipo
             ]);
 
         return response()
