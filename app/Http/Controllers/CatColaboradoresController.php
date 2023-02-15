@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 /**
  * Validaciones
  */
@@ -54,7 +56,7 @@ class CatColaboradoresController extends Controller
     {
         $newUser = new $this->user;
         $newUser->name = $request->nombre;
-        $newUser->email = $request->correo;
+        $newUser->email = $request->correo_electronico;
         $newUser->password = Hash::make( $request->password );
         $newUser->save();
 
@@ -64,7 +66,7 @@ class CatColaboradoresController extends Controller
                 'apellido_paterno' => $request->apellido_paterno,
                 'apellido_materno' => $request->apellido_materno,
                 'telefono' => $request->telefono,
-                'correo_electronico' => $request->correo,
+                'correo_electronico' => $request->correo_electronico,
                 'user_id' => $newUser->id
             ]);
 
@@ -106,7 +108,13 @@ class CatColaboradoresController extends Controller
                 'apellido_paterno'   => $request->apellido_paterno,
                 'apellido_materno'   => $request->apellido_materno,
                 'telefono'           => $request->telefono,
-                'correo_electronico' => $request->correo
+                'correo_electronico' => $request->correo_electronico
+            ]);
+
+        $this->user
+            ->where('email', $request->correo_electronico)
+            ->update([
+                'password' => Hash::make($request->password)
             ]);
 
         return response()

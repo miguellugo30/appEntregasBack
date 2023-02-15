@@ -20,7 +20,7 @@ class ColaboradorResource extends JsonResource
             'apellido_paterno' => $this->apellido_paterno,
             'apellido_materno' => $this->apellido_materno,
             'telefono' => $this->telefono,
-            'correo' => $this->correo_electronico,
+            'correo_electronico' => $this->correo_electronico,
             'ruta_perfil' => $this->ruta_perfil
         ];
     }
