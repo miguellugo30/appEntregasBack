@@ -19,6 +19,8 @@ use App\Http\Resources\ColaboradorResource;
 use App\Models\CatColaboradores;
 use App\Models\User;
 
+use function Safe\file_get_contents;
+
 class CatColaboradoresController extends Controller
 {
     private $colaboradores;
@@ -40,7 +42,7 @@ class CatColaboradoresController extends Controller
      */
     public function index()
     {
-        return (ColaboradorResource::collection( $this->colaboradores->active()->get() ))
+        return (ColaboradorResource::collection( $this->colaboradores->active()->orderBy('id', 'asc')->get() ))
                                     ->additional([
                                         'message' => '',
                                         'success' => true
@@ -54,13 +56,14 @@ class CatColaboradoresController extends Controller
      */
     public function store(CatColaboradoresRequest $request)
     {
+
         $newUser = new $this->user;
         $newUser->name = $request->nombre;
         $newUser->email = $request->correo_electronico;
         $newUser->password = Hash::make( $request->password );
         $newUser->save();
 
-        $this->colaboradores
+        $colaborador = $this->colaboradores
             ->create([
                 'nombre' => $request->nombre,
                 'apellido_paterno' => $request->apellido_paterno,
@@ -69,6 +72,20 @@ class CatColaboradoresController extends Controller
                 'correo_electronico' => $request->correo_electronico,
                 'user_id' => $newUser->id
             ]);
+
+        if($request->ruta_perfil != null)
+        {
+            $img = substr($request->ruta_perfil, strpos($request->ruta_perfil, ",")+1);
+            $data = base64_decode($img);
+
+            \Storage::disk('public')->put( 'colab_'.$colaborador->id.'.jpeg', $data);
+
+            $this->colaboradores
+            ->where('id', $colaborador->id)
+            ->update([
+                'ruta_perfil' => 'colab_'.$colaborador->id.'.jpeg'
+            ]);
+        }
 
         return response()
                 ->json([
@@ -85,11 +102,29 @@ class CatColaboradoresController extends Controller
      */
     public function show($id)
     {
-        return ( new ColaboradorResource( $this->colaboradores->findOrFail($id) ))
-                ->additional([
-                    'message' => '',
-                    'success' => true
-                ]);
+
+        if ( file_exists( public_path( 'storage/colab_'.$id.'.jpeg') ) )
+        {
+            $data = "data:image/jpeg;base64,".base64_encode (file_get_contents( public_path( 'storage/colab_'.$id.'.jpeg') ) );
+
+             return response()
+                    ->json([
+                        'success' => true,
+                        'message' => '',
+                        'data'    => $data
+                    ]);
+        }
+        else
+        {
+            return response()
+                    ->json([
+                        'success' => false,
+                        'message' => 'El usuario no tiene foto de perfil',
+                        'data'    => ''
+                    ]);
+        }
+
+
     }
     /**
      * Update the specified resource in storage.
@@ -107,8 +142,7 @@ class CatColaboradoresController extends Controller
                 'nombre'             => $request->nombre,
                 'apellido_paterno'   => $request->apellido_paterno,
                 'apellido_materno'   => $request->apellido_materno,
-                'telefono'           => $request->telefono,
-                'correo_electronico' => $request->correo_electronico
+                'telefono'           => $request->telefono
             ]);
 
         $this->user
@@ -116,6 +150,20 @@ class CatColaboradoresController extends Controller
             ->update([
                 'password' => Hash::make($request->password)
             ]);
+
+        if($request->ruta_perfil != null)
+        {
+            $img = substr($request->ruta_perfil, strpos($request->ruta_perfil, ",")+1);
+            $data = base64_decode($img);
+
+            \Storage::disk('public')->put( 'colab_'.$id.'.jpeg', $data);
+
+            $this->colaboradores
+            ->where('id', $id)
+            ->update([
+                'ruta_perfil' => 'colab_'.$id.'.jpeg'
+            ]);
+        }
 
         return response()
                 ->json([
