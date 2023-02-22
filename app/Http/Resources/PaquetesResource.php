@@ -15,6 +15,7 @@ class PaquetesResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'guia_rastreo' => $this->guia_rastreo,
             'nombre_cliente' => $this->nombre_cliente,
             'telefono' => $this->telefono,

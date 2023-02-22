@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CatColaboradoresController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PaquetesController;
+use App\Http\Controllers\PaquetesSalidaController;
+use App\Http\Controllers\PaquetesRepartidorController;
+use App\Http\Controllers\RepartidorController;
 use App\Http\Controllers\VehiculosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +28,9 @@ Route::post('/login', [LoginController::class, 'store']);
 Route::apiResources([
     'colaboradores' => CatColaboradoresController::class,
     'vehiculos' => VehiculosController::class,
-    'paquetes' => PaquetesController::class,
+    'repartidores' => RepartidorController::class,
+    //'paquetes_entrada' => PaquetesSalidaController::class,
+    'paquetes_salida' => PaquetesSalidaController::class,
+    'paquetes_repartidor' => PaquetesRepartidorController::class,
 ]);
 //Route::apiResource('login', LoginController::class)->middleware(['auth:sanctum']);

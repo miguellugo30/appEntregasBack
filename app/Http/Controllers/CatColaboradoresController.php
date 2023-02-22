@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Storage;
 /**
  * Validaciones
  */
@@ -18,8 +17,6 @@ use App\Http\Resources\ColaboradorResource;
  */
 use App\Models\CatColaboradores;
 use App\Models\User;
-
-use function Safe\file_get_contents;
 
 class CatColaboradoresController extends Controller
 {
@@ -56,7 +53,6 @@ class CatColaboradoresController extends Controller
      */
     public function store(CatColaboradoresRequest $request)
     {
-
         $newUser = new $this->user;
         $newUser->name = $request->nombre;
         $newUser->email = $request->correo_electronico;
@@ -70,7 +66,8 @@ class CatColaboradoresController extends Controller
                 'apellido_materno' => $request->apellido_materno,
                 'telefono' => $request->telefono,
                 'correo_electronico' => $request->correo_electronico,
-                'user_id' => $newUser->id
+                'user_id' => $newUser->id,
+                'cat_roles_id' => $request->rol
             ]);
 
         if($request->ruta_perfil != null)
@@ -78,7 +75,7 @@ class CatColaboradoresController extends Controller
             $img = substr($request->ruta_perfil, strpos($request->ruta_perfil, ",")+1);
             $data = base64_decode($img);
 
-            \Storage::disk('public')->put( 'colab_'.$colaborador->id.'.jpeg', $data);
+            Storage::disk('public')->put( 'colab_'.$colaborador->id.'.jpeg', $data);
 
             $this->colaboradores
             ->where('id', $colaborador->id)
@@ -107,24 +104,22 @@ class CatColaboradoresController extends Controller
         {
             $data = "data:image/jpeg;base64,".base64_encode (file_get_contents( public_path( 'storage/colab_'.$id.'.jpeg') ) );
 
-             return response()
-                    ->json([
-                        'success' => true,
-                        'message' => '',
-                        'data'    => $data
-                    ]);
+            return response()
+                ->json([
+                    'success' => true,
+                    'message' => '',
+                    'data'    => $data
+                ]);
         }
         else
         {
             return response()
-                    ->json([
-                        'success' => false,
-                        'message' => 'El usuario no tiene foto de perfil',
-                        'data'    => ''
-                    ]);
+                ->json([
+                    'success' => false,
+                    'message' => 'El usuario no tiene foto de perfil',
+                    'data'    => ''
+                ]);
         }
-
-
     }
     /**
      * Update the specified resource in storage.
@@ -139,10 +134,11 @@ class CatColaboradoresController extends Controller
         $this->colaboradores
             ->where('id', $id)
             ->update([
-                'nombre'             => $request->nombre,
-                'apellido_paterno'   => $request->apellido_paterno,
-                'apellido_materno'   => $request->apellido_materno,
-                'telefono'           => $request->telefono
+                'nombre'           => $request->nombre,
+                'apellido_paterno' => $request->apellido_paterno,
+                'apellido_materno' => $request->apellido_materno,
+                'telefono'         => $request->telefono,
+                'cat_roles_id'     => $request->rol
             ]);
 
         $this->user
@@ -156,7 +152,7 @@ class CatColaboradoresController extends Controller
             $img = substr($request->ruta_perfil, strpos($request->ruta_perfil, ",")+1);
             $data = base64_decode($img);
 
-            \Storage::disk('public')->put( 'colab_'.$id.'.jpeg', $data);
+            Storage::disk('public')->put( 'colab_'.$id.'.jpeg', $data);
 
             $this->colaboradores
             ->where('id', $id)

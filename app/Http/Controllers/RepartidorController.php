@@ -4,28 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 /**
- * Validaciones
- */
-use App\Http\Requests\PaquetesRequest;
-/**
  * Resources
  */
-use App\Http\Resources\PaquetesResource;
+use App\Http\Resources\ColaboradorResource;
 /**
  * Modelos
  */
-use App\Models\CtlPaquetes;
+use App\Models\CatColaboradores;
 
-class PaquetesController extends Controller
+class RepartidorController extends Controller
 {
-    private $paquetes;
+    private $colaboradores;
+
 
     public function __construct(
-            CtlPaquetes $paquetes
+            CatColaboradores $colaboradores
         )
     {
-        $this->paquetes = $paquetes;
-
+        $this->colaboradores = $colaboradores;
     }
     /**
      * Display a listing of the resource.
@@ -34,11 +30,11 @@ class PaquetesController extends Controller
      */
     public function index()
     {
-        return (PaquetesResource::collection( $this->paquetes->get() ))
-        ->additional([
-            'message' => '',
-            'success' => true
-        ]);
+        return (ColaboradorResource::collection( $this->colaboradores->active()->where('cat_roles_id', 2)->orderBy('id', 'asc')->get() ))
+                                    ->additional([
+                                        'message' => '',
+                                        'success' => true
+                                    ]);
     }
 
     /**

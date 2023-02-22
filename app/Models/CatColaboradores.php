@@ -50,4 +50,18 @@ class CatColaboradores extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    /**
+     * Relacion uno a uno con cat_colaboradores
+     */
+    public function rol()
+    {
+        return $this->hasOne(CatRoles::class, 'id', 'cat_roles_id');
+    }
+    /**
+     * Relacion uno a muchos con paquetes
+     */
+    public function paquetes()
+    {
+        return $this->belongsToMany(CtlPaquetes::class, 'ctl_paquetes_colaborador', 'cat_colaboradores_id', 'ctl_paquetes_id')->withTimestamps();;
+    }
 }

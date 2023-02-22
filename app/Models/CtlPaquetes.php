@@ -35,5 +35,12 @@ class CtlPaquetes extends Model
      * Se habilitan los timestamps
      */
     public $timestamps = true;
+    /**
+     * Relacion uno a muchos con paquetes
+     */
+    public function colaborador()
+    {
+        return $this->belongsToMany(CatColaboradores::class, 'ctl_paquetes_colaborador', 'ct_paquetes_id', 'cat_colaboradores_id')->withTimestamps();
+    }
 
 }
