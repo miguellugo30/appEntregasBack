@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RolesResource extends JsonResource
+class EstatusResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,6 +17,7 @@ class RolesResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
+            'created_at' => $this->pivot->created_at,
         ];
     }
 }

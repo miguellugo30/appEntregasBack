@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ColaboradorResource;
+use App\Http\Resources\EstatusResource;
 use Illuminate\Http\Request;
 
 /**
  * Resources
  */
-use App\Http\Resources\PaquetesResource;
+use App\Http\Resources\PaquetesEstatusResource;
 /**
  * Modelos
  */
 use App\Models\CatColaboradores;
 use App\Models\CtlPaquetes;
 
-class PaquetesRepartidorController extends Controller
+class PaquetesController extends Controller
 {
     private $paquetes;
     private $colaborador;
@@ -33,19 +35,16 @@ class PaquetesRepartidorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
 
-        $paquetes = $this->colaborador::find($id)->paquetes()->get();
-
         return (
-            PaquetesResource::collection( $paquetes )
+            PaquetesEstatusResource::collection( $this->paquetes->get() )
         )
         ->additional([
             'message' => '',
             'success' => true
         ]);
-
     }
 
     /**
@@ -56,7 +55,7 @@ class PaquetesRepartidorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -67,7 +66,16 @@ class PaquetesRepartidorController extends Controller
      */
     public function show($id)
     {
-        //
+        $paquete = $this->paquetes->find($id);
+        $response['estatus'] = EstatusResource::collection( $paquete->estatus );
+        $response['colaborador'] = ColaboradorResource::collection( $paquete->colaborador );
+
+        return response()
+                ->json([
+                    'success' => true,
+                    'message' => '',
+                    'data'    => $response
+                ]);
     }
 
     /**

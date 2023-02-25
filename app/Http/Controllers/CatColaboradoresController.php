@@ -67,7 +67,8 @@ class CatColaboradoresController extends Controller
                 'telefono' => $request->telefono,
                 'correo_electronico' => $request->correo_electronico,
                 'user_id' => $newUser->id,
-                'cat_roles_id' => $request->rol
+                'cat_roles_id' => $request->rol,
+                'cat_vehiculos_id' => $request->vehiculo
             ]);
 
         if($request->ruta_perfil != null)
@@ -138,7 +139,8 @@ class CatColaboradoresController extends Controller
                 'apellido_paterno' => $request->apellido_paterno,
                 'apellido_materno' => $request->apellido_materno,
                 'telefono'         => $request->telefono,
-                'cat_roles_id'     => $request->rol
+                'cat_roles_id'     => $request->rol,
+                'cat_vehiculos_id' => $request->vehiculo
             ]);
 
         $this->user

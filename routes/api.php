@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CatColaboradoresController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaquetesController;
 use App\Http\Controllers\PaquetesSalidaController;
 use App\Http\Controllers\PaquetesRepartidorController;
 use App\Http\Controllers\RepartidorController;
@@ -30,7 +31,10 @@ Route::apiResources([
     'vehiculos' => VehiculosController::class,
     'repartidores' => RepartidorController::class,
     //'paquetes_entrada' => PaquetesSalidaController::class,
+    'paquetes' => PaquetesController::class,
     'paquetes_salida' => PaquetesSalidaController::class,
     'paquetes_repartidor' => PaquetesRepartidorController::class,
 ]);
+
+Route::get('/paquetes_repartidor/{paquetes_repartidor}', [PaquetesRepartidorController::class, 'index']);
 //Route::apiResource('login', LoginController::class)->middleware(['auth:sanctum']);

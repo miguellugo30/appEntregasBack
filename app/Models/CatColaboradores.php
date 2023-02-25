@@ -64,4 +64,12 @@ class CatColaboradores extends Model
     {
         return $this->belongsToMany(CtlPaquetes::class, 'ctl_paquetes_colaborador', 'cat_colaboradores_id', 'ctl_paquetes_id')->withTimestamps();;
     }
+    /**
+     * Relacion uno a uno con cat_vehiculos
+     */
+    public function vehiculo()
+    {
+        return $this->hasOne(CatVehiculos::class, 'id', 'cat_vehiculos_id');
+    }
+
 }

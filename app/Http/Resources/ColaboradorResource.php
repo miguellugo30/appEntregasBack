@@ -22,7 +22,8 @@ class ColaboradorResource extends JsonResource
             'telefono' => $this->telefono,
             'correo_electronico' => $this->correo_electronico,
             'ruta_perfil' => $this->ruta_perfil,
-            'rol' => new RolesResource($this->Rol)
+            'rol' => new RolesResource($this->Rol),
+            'vehiculo' => new VehiculosResource($this->Vehiculo),
         ];
     }
 }

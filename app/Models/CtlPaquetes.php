@@ -40,7 +40,14 @@ class CtlPaquetes extends Model
      */
     public function colaborador()
     {
-        return $this->belongsToMany(CatColaboradores::class, 'ctl_paquetes_colaborador', 'ct_paquetes_id', 'cat_colaboradores_id')->withTimestamps();
+        return $this->belongsToMany(CatColaboradores::class, 'ctl_paquetes_colaborador', 'ctl_paquetes_id', 'cat_colaboradores_id')->withTimestamps();
+    }
+    /**
+     * Relacion uno a muchos con paquetes
+     */
+    public function estatus()
+    {
+        return $this->belongsToMany(CatEstatusPaquetes::class, 'ctl_paquetes_estatus', 'ctl_paquetes_id', 'cat_estatus_paquetes_id')->withTimestamps();
     }
 
 }
