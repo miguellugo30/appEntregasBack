@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::apiResources([
         'colaboradores' => CatColaboradoresController::class,
         'vehiculos' => VehiculosController::class,
@@ -40,6 +40,4 @@ Route::middleware('auth:sanctum')->group(function () {
     ]);
 });
 
-
 Route::get('/paquetes_repartidor/{paquetes_repartidor}', [PaquetesRepartidorController::class, 'index'])->middleware('auth:sanctum');
-//Route::apiResource('login', LoginController::class)->middleware(['auth:sanctum']);
