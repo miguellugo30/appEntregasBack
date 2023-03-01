@@ -47,7 +47,7 @@ class CtlPaquetes extends Model
      */
     public function estatus()
     {
-        return $this->belongsToMany(CatEstatusPaquetes::class, 'ctl_paquetes_estatus', 'ctl_paquetes_id', 'cat_estatus_paquetes_id')->withTimestamps();
+        return $this->belongsToMany(CatEstatusPaquetes::class, 'ctl_paquetes_estatus', 'ctl_paquetes_id', 'cat_estatus_paquetes_id')->withTimestamps()->orderBy('ctl_paquetes_estatus.id', 'DESC');
     }
 
 }

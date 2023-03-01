@@ -31,6 +31,12 @@ class LoginController extends Controller
      */
     public function index()
     {
+        return response()
+                ->json([
+                    'success' => false,
+                    'message' => 'Unauthorized',
+                    'data'    => ''
+                ]);
 
     }
 

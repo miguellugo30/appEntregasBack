@@ -24,17 +24,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
-Route::apiResources([
-    'colaboradores' => CatColaboradoresController::class,
-    'vehiculos' => VehiculosController::class,
-    'repartidores' => RepartidorController::class,
-    //'paquetes_entrada' => PaquetesSalidaController::class,
-    'paquetes' => PaquetesController::class,
-    'paquetes_salida' => PaquetesSalidaController::class,
-    'paquetes_repartidor' => PaquetesRepartidorController::class,
-]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResources([
+        'colaboradores' => CatColaboradoresController::class,
+        'vehiculos' => VehiculosController::class,
+        'repartidores' => RepartidorController::class,
+        //'paquetes_entrada' => PaquetesSalidaController::class,
+        'paquetes' => PaquetesController::class,
+        'paquetes_salida' => PaquetesSalidaController::class,
+        'paquetes_repartidor' => PaquetesRepartidorController::class,
+    ]);
+});
 
-Route::get('/paquetes_repartidor/{paquetes_repartidor}', [PaquetesRepartidorController::class, 'index']);
+
+Route::get('/paquetes_repartidor/{paquetes_repartidor}', [PaquetesRepartidorController::class, 'index'])->middleware('auth:sanctum');
 //Route::apiResource('login', LoginController::class)->middleware(['auth:sanctum']);

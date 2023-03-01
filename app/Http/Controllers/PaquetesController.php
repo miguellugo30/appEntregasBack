@@ -66,7 +66,8 @@ class PaquetesController extends Controller
      */
     public function show($id)
     {
-        $paquete = $this->paquetes->find($id);
+        $paquete = $this->paquetes->findOrFail($id);
+
         $response['estatus'] = EstatusResource::collection( $paquete->estatus );
         $response['colaborador'] = ColaboradorResource::collection( $paquete->colaborador );
 

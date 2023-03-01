@@ -57,7 +57,6 @@ class PaquetesSalidaController extends Controller
      */
     public function store(Request $request)
     {
-        //$paquetes =  json_decode( $request->paquetes[0], true);
         $paquetesId = [];
         /**
          * obtenemos los ID de los paquetes a relacionar

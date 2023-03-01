@@ -30,6 +30,7 @@ class PaquetesResource extends JsonResource
             'referencias' => $this->referencias,
             'coord_latitud' => $this->coord_latitud,
             'coord_longitud' => $this->coord_longitud,
+            'estatus' => EstatusResource::collection( $this->estatus )->first()
         ];
     }
 }
